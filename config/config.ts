@@ -1,0 +1,3 @@
+export const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
+export const NFT_CONTRACT_ADDRESS =
+  process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
