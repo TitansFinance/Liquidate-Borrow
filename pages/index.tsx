@@ -49,7 +49,6 @@ const HomePage: NextPage = () => {
 
 
 
-
   const handleShowLaunch = () => setShowLaunch(!showLaunch)
   const handleShowFactory = () => setShowFactory(!showFactory)
   const handleShowTrade = () => setShowTrade(!showTrade)
@@ -669,9 +668,13 @@ const HomePage: NextPage = () => {
             </Modal>
           </Flex>
         </Flex>
-
+        <br />
+        <br />
+        <br />
       </Flex>
+
     </Flex>
+
   )
 }
 
