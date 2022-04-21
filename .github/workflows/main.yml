@@ -1,0 +1,54 @@
+name: Build & Push to AWS
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+
+    - name: Cache Node Modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        # yarn cache files are stored in `~/.cache` on Linux/macOS
+        path: ~/.cache
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Install Yarn Dependencies
+      run: |
+        yarn install --ignore-optional --ignore-platform || ( \
+          echo "Yarn install failed, cleaning cache" && \
+          yarn cache clean && \
+          echo "Trying yarn install again..." \
+          && yarn install --ignore-optional --ignore-platform
+        )
+
+    - name: Build
+      run:
+        yarn build
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Deploy static site to S3 bucket
+      run: aws s3 sync ./out/ s3://liquidate-borrow --delete
