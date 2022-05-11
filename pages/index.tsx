@@ -1,6 +1,7 @@
 /* eslint-disable */
 // @ts-ignore
 // @ts-nocheck
+
 import React, { useState, useEffect } from 'react'
 import type { NextPage } from 'next'
 import {
@@ -16,28 +17,16 @@ import {
   useToast
 } from '@chakra-ui/react'
 import window from 'global'
-
-
-import NFTSwap from '@components/Form/NFTSwap'
-import NFTTrade from '@components/Form/NFTTrade'
-import NFTMint from '@components/Form/NFTMint'
 import Header from '@components/Layout/Header'
-import Trade from '@components/Form/Trade'
 import Web3 from 'web3'
 import comp_abi from '../ABI/Comptroller.json'
 import ctoken_abi from '../ABI/CToken.json'
 import underlying_abi from '../ABI/Underlying.json'
+
+
 const HomePage: NextPage = () => {
 
   const web3 = new Web3(window.ethereum)
-
-
-  const [showLaunch, setShowLaunch] = useState(false)
-  const [showFactory, setShowFactory] = useState(false)
-  const [showTrade, setShowTrade] = useState(false)
-  const [showNFTmint, setShowNFTMint] = useState(false)
-
-
   const [borrAdd, setBorrAdd] = useState("")
   const [amount, setAmount] = useState("")
   const [collAdd, setCollAdd] = useState("")
@@ -45,14 +34,11 @@ const HomePage: NextPage = () => {
   const [account, setAccount] = useState("")
   const compAdd = "0xC1aB2E0d34c7c0981E514Af7fB0BeFDF10B680f0"
   const toast = useToast();
-
-
-
-
-  const handleShowLaunch = () => setShowLaunch(!showLaunch)
-  const handleShowFactory = () => setShowFactory(!showFactory)
-  const handleShowTrade = () => setShowTrade(!showTrade)
-  const handleShowNFTMint = () => setShowNFTMint(!showNFTmint)
+  const { isOpen: isAppOpen, onOpen: onAppOpen, onClose: onAppClose } = useDisclosure()
+  const { isOpen: isLiqOpen, onOpen: onLiqOpen, onClose: onLiqClose } = useDisclosure()
+  const { isOpen: isGetOpen, onOpen: onGetOpen, onClose: onGetClose } = useDisclosure()
+  const { isOpen: isBalOpen, onOpen: onBalOpen, onClose: onBalClose } = useDisclosure()
+  const { isOpen: isRedOpen, onOpen: onRedOpen, onClose: onRedClose } = useDisclosure()
 
 
   async function getAccount() {
@@ -66,6 +52,7 @@ const HomePage: NextPage = () => {
   console.log(account)
   const comp_instance = new web3.eth.Contract(comp_abi, compAdd)
 
+
   function handleBorrAdd(e: any) {
     setBorrAdd(e.target.value)
   }
@@ -78,11 +65,6 @@ const HomePage: NextPage = () => {
   function handleCAdd(e: any) {
     setCAdd(e.target.value)
   }
-  const { isOpen: isAppOpen, onOpen: onAppOpen, onClose: onAppClose } = useDisclosure()
-  const { isOpen: isLiqOpen, onOpen: onLiqOpen, onClose: onLiqClose } = useDisclosure()
-  const { isOpen: isGetOpen, onOpen: onGetOpen, onClose: onGetClose } = useDisclosure()
-  const { isOpen: isBalOpen, onOpen: onBalOpen, onClose: onBalClose } = useDisclosure()
-  const { isOpen: isRedOpen, onOpen: onRedOpen, onClose: onRedClose } = useDisclosure()
 
   async function handleReedem(e: any) {
     try {
@@ -188,33 +170,7 @@ const HomePage: NextPage = () => {
 
 
     }
-    // comp_instance.methods.getAccountLiquidity(borrAdd).call({from:account})
-    // .on('Result', function (Result) {
-    //          console.log(Result)
 
-    //   toast({
-    //     title: {result},
-    //     status: 'success',
-    //     duration: 6000,
-    //     isClosable: true,
-    //   });
-    // })
-    // .on('error', function (error) {
-    //   console.log(error)
-    //   toast({
-    //     title: 'Error',
-    //     status: 'error',
-    //     duration: 6000,
-    //     isClosable: true,
-    //   });
-    // })
-
-    //     .on('receipt',function(receipt){
-    //       console.log(receipt)
-    //     })
-    // .on('error',function(error){
-    //   console.log(error)
-    // })
 
 
   }
@@ -242,25 +198,7 @@ const HomePage: NextPage = () => {
         isClosable: true,
       });
     }
-    // .on('receipt', function (receipt) {
-    //          console.log(receipt)
 
-    //   toast({
-    //     title: {receipt},
-    //     status: 'success',
-    //     duration: 6000,
-    //     isClosable: true,
-    //   });
-    // })
-    // .on('error', function (error) {
-    //   console.log(error)
-    // toast({
-    //   title: 'Error',
-    //   status: 'error',
-    //   duration: 6000,
-    //   isClosable: true,
-    // });
-    // })
 
   }
 
