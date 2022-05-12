@@ -429,13 +429,13 @@ const HomePage: NextPage = () => {
                       id="token"
                       type="token"
                       onChange={handleCollAdd}
-                      placeholder="Token Collateral Address"
+                      placeholder="CToken Collateral Address"
                       mt="24px"
                     /> <Input
                       id="token"
                       type="token"
                       onChange={handleCAdd}
-                      placeholder="C Token Address"
+                      placeholder="CToken Borrow Address"
                       mt="24px"
                     />
                     <br />
